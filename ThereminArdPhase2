@@ -1,6 +1,6 @@
 // setup pins and variables for SRF05 sonar device
-int echoPin = 2;                                // SRF05 echo pin (digital 2)
-int initPin = 8;                                // SRF05 trigger pin (digital 3)
+int echoPin = 2;                                // HC-SR04 echo pin (digital 2)
+int initPin = 8;                                // HC-SR04 trigger pin (digital 3)
 int speakerPin = 6;                             // Speaker pin
 unsigned long pulseTime = 0;                    // stores the pulse in Micro Seconds
 unsigned long distance = 0;                     // variable for storing the distance (cm) we'll use distance as a switch for the speaker
