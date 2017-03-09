@@ -1,0 +1,66 @@
+#include "pitches.h"
+
+// setup pins and variables for SRF05 sonar device
+
+
+int echoPin = 2;                                // SRF05 echo pin (digital 2)
+int initPin = 8;                                // SRF05 trigger pin (digital 3)
+int speakerPin = 3;                             // Speaker pin
+unsigned long pulseTime = 0;                    // stores the pulse in Micro Seconds
+unsigned long distance = 0;                     // variable for storing the distance (cm) we'll use distance as a switch for the speaker
+unsigned long soundDelay = 0; 
+int noteDurations[] = {
+};
+
+  int melody[] = {
+   
+};
+// variable for storing the deay needed for the pitch
+//setup
+void setup() {
+Serial.begin(9600);
+  pinMode(speakerPin, OUTPUT);                  // sets pin 6 as output
+  pinMode(initPin, OUTPUT);                     // set init pin 3 as output
+  pinMode(echoPin, INPUT);                      // set echo pin 2 as input
+
+for (int thisNote = 0; thisNote < 8; thisNote++) {
+Serial.println ("setup");
+    // to calculate the note duration, take one second
+    // divided by the note type.
+    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+    int noteDuration = 1000 / noteDurations[thisNote];
+    tone(3, melody[thisNote], noteDuration);
+
+    // to distinguish the notes, set a minimum time between them.
+    // the note's duration + 30% seems to work well:
+    int pauseBetweenNotes = noteDuration * 1.30;
+    delay(pauseBetweenNotes);
+    // stop the tone playing:
+    noTone(3);
+}
+ } 
+
+// execute
+void loop() {
+
+  digitalWrite(initPin, HIGH);                  // send 10 microsecond pulse
+  delayMicroseconds(10);                        // wait 10 microseconds before turning off
+  digitalWrite(initPin, LOW);                   // stop sending the pulse
+  pulseTime = pulseIn(echoPin, HIGH);           // Look for a return pulse, it should be high as the pulse goes low-high-low
+  distance = pulseTime/58;                      // convert the pulse into distance (cm)
+  soundDelay = pulseTime/1;                     // alter this variable to alter the pitch of the sound emitted
+
+  // make the sound.
+  // check the distance, if over 30cm make no sound
+  if (distance >1 && distance < 50) {
+  
+    tone (3, melody[NOTE_C3], 1);   
+  Serial.println(distance);
+  }
+    else
+    { 
+      noTone(3);
+  Serial.println(distance);
+  }
+  
+  }
